@@ -1,0 +1,21 @@
+mat-nav-list {
+  padding-top: 12px;
+
+  a {
+    display: block;
+    padding: 10px 16px;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+    text-decoration: none;
+    color: #333;
+
+    &:hover {
+      background-color: rgba(25, 118, 210, 0.1); /* léger effet hover */
+    }
+
+    &.active {
+      background-color: rgba(25, 118, 210, 0.2); /* lien actif */
+      font-weight: 500;
+    }
+  }
+}

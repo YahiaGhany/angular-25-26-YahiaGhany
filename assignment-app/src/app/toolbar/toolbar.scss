@@ -1,0 +1,14 @@
+.title {
+  margin-left: 16px;  /* différent de l'original */
+  font-weight: 500;    /* légèrement plus léger */
+  font-size: 1.2rem;   /* taille légèrement augmentée */
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+button.mat-icon-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 6px;
+}
