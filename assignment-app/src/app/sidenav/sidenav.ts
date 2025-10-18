@@ -1,21 +1,15 @@
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { RouterOutlet } from '@angular/router';
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-sidenav',
-  templateUrl: './sidenav.html',
-  styleUrls: ['./sidenav.scss'],
+  standalone: true,
   imports: [
-    MatSidenavModule,
     MatListModule,
-    MatIconModule,
-    MatButtonModule,
-    RouterOutlet,
+    RouterLink
   ],
+  templateUrl: './sidenav.html',
+  styleUrls: ['./sidenav.scss']
 })
 export class SidenavComponent {}
-

@@ -1,16 +1,13 @@
 <mat-sidenav-container class="sidenav-container">
 
-  <!-- Sidenav fixe sur le côté gauche -->
   <mat-sidenav #sidenav mode="side" opened>
     <app-sidenav></app-sidenav>
   </mat-sidenav>
 
   <mat-sidenav-content>
 
-    <!-- Toolbar en haut -->
     <app-toolbar (menuToggle)="sidenav.toggle()"></app-toolbar>
 
-    <!-- Contenu principal -->
     <div class="main-content">
       <router-outlet></router-outlet>
     </div>

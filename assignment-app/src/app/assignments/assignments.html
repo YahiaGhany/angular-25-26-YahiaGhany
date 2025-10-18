@@ -1,0 +1,25 @@
+<main class="assignments-container">
+  @if (!formVisible) {
+    <h2>{{ titre }}</h2>
+    <button mat-flat-button color="accent" (click)="formVisible = true">
+      Ajouter un devoir
+    </button>
+    <mat-list>
+      <mat-list-item
+        *ngFor="let assignment of assignments"
+        (click)="assignmentClique(assignment)"
+        [class.rendu]="assignment.rendu">
+        <h3 matListItemTitle>{{ assignment.nom }}</h3>
+        <p matListItemLine>Date de rendu : {{ assignment.dateDeRendu }}</p>
+      </mat-list-item>
+    </mat-list>
+    <hr>
+    <h3>Détail du devoir sélectionné :</h3>
+    <app-assignment-detail
+      [assignmentTransmis]="assignmentSelectionne"
+      (assignmentSupprime)="onAssignmentSupprime($event)">
+    </app-assignment-detail>
+  } @else {
+    <app-add-assignment (nouvelAssignment)="onNouvelAssignment($event)"></app-add-assignment>
+  }
+</main>
