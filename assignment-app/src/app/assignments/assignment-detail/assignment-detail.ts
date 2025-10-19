@@ -18,4 +18,4 @@ export class AssignmentDetailComponent {
   onAssignmentSupprime() {
     this.assignmentSupprime.emit(this.assignmentTransmis);
   }
-}
+} 
