@@ -7,8 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 
-// 1. On importe notre modèle
-import { Assignment } from '../../assignment.model';
+// Corrigé ici :
+import { Assignment } from '../../assignement.model';
 
 @Component({
   selector: 'app-add-assignment',
@@ -26,7 +26,6 @@ import { Assignment } from '../../assignment.model';
   styleUrls: ['./add-assignment.scss']
 })
 export class AddAssignmentComponent {
-  // 2. On type l'événement de sortie
   @Output() nouvelAssignment = new EventEmitter<Assignment>();
 
   nomDevoir: string = '';
@@ -35,19 +34,16 @@ export class AddAssignmentComponent {
   constructor() {}
 
   onSubmit() {
-    if (this.nomDevoir === '' || !this.dateDeRendu) return;
+    if (!this.nomDevoir || !this.dateDeRendu) return;
 
-    // 3. On crée un objet Assignment complet
     const newAssignment: Assignment = {
-      id: 0, // L'id sera généré par le service, on met 0
+      id: 0,
       nom: this.nomDevoir,
       dateDeRendu: this.dateDeRendu.toISOString().split('T')[0],
       rendu: false
     };
 
-    // 4. On émet l'objet
     this.nouvelAssignment.emit(newAssignment);
-
     this.nomDevoir = '';
   }
 }

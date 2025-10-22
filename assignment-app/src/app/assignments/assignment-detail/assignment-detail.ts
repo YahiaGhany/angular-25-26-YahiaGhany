@@ -4,6 +4,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 
+// Corrigé ici :
+import { Assignment } from '../../assignement.model';
+import { AssignmentsService } from '../../shared/assignments.service';
+
 @Component({
   selector: 'app-assignment-detail',
   standalone: true,
@@ -12,10 +16,20 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrls: ['./assignment-detail.scss']
 })
 export class AssignmentDetailComponent {
-  @Input() assignmentTransmis: any;
-  @Output() assignmentSupprime = new EventEmitter<any>();
+  @Input() assignmentTransmis?: Assignment;
+  @Output() assignmentSupprime = new EventEmitter<Assignment>();
+
+  constructor(private assignmentsService: AssignmentsService) {}
+
+  onCheckboxChange() {
+    if (!this.assignmentTransmis) return;
+    this.assignmentTransmis.rendu = !this.assignmentTransmis.rendu;
+    this.assignmentsService.updateAssignment(this.assignmentTransmis)
+      .subscribe(message => console.log(message));
+  }
 
   onAssignmentSupprime() {
+    if (!this.assignmentTransmis) return;
     this.assignmentSupprime.emit(this.assignmentTransmis);
   }
-} 
+}

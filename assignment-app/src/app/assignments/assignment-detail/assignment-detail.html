@@ -8,9 +8,12 @@
       <p>Ce devoir est à rendre pour bientôt !</p>
     </mat-card-content>
     <mat-card-actions>
-      <mat-checkbox [checked]="assignmentTransmis.rendu">
+      <mat-checkbox 
+        [checked]="assignmentTransmis.rendu"
+        (change)="onCheckboxChange()">
         Rendu
       </mat-checkbox>
+      
       <button mat-flat-button color="warn" (click)="onAssignmentSupprime()">
         SUPPRIMER
       </button>

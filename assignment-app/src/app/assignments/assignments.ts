@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Assignment } from '../assignment.model';
+// Corrigé ici :
+import { Assignment } from '../assignement.model';
 import { AssignmentsService } from '../shared/assignments.service';
 
 import { CommonModule } from '@angular/common';
@@ -30,11 +31,9 @@ export class AssignmentsComponent implements OnInit {
   constructor(private assignmentsService: AssignmentsService) {}
 
   ngOnInit(): void {
-    // On charge les données au démarrage
     this.getAssignments();
   }
 
-  // On crée une méthode séparée pour rafraîchir la liste
   getAssignments() {
     this.assignmentsService.getAssignments()
       .subscribe(data => {
@@ -46,22 +45,17 @@ export class AssignmentsComponent implements OnInit {
     this.assignmentSelectionne = assignment;
   }
 
-  // MÉTHODE MISE À JOUR
   onNouvelAssignment(event: Assignment) {
-    // On appelle le service pour ajouter le devoir
     this.assignmentsService.addAssignment(event)
       .subscribe(message => {
-        console.log(message); // Affiche le message de succès
-        this.formVisible = false; // Cache le formulaire
-        
-        // IMPORTANT : On rafraîchit la liste locale
-        // en redemandant les données au service
+        console.log(message);
+        this.formVisible = false;
         this.getAssignments();
       });
   }
 
   onAssignmentSupprime(assignment: Assignment) {
-    // TODO: On devra modifier ça pour appeler le service
+    // TODO
     const index = this.assignments.indexOf(assignment);
     if (index > -1) {
       this.assignments.splice(index, 1);
