@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Assignment } from '../assignement.model'; // Ton nom de fichier
 import { Observable, of } from 'rxjs';
+import { LoggingService } from './logging.service'; // 1. Importer le service
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class AssignmentsService {
     { id: 3, nom: 'Projet M2', dateDeRendu: '2025-01-15', rendu: false }
   ];
 
-  constructor() { }
+  // 2. Injecter le service dans le constructeur
+  constructor(private loggingService: LoggingService) { }
 
   getAssignments(): Observable<Assignment[]> {
     return of(this.assignments);
@@ -21,6 +23,10 @@ export class AssignmentsService {
   addAssignment(assignment: Assignment): Observable<string> {
     assignment.id = this.assignments[this.assignments.length - 1].id + 1;
     this.assignments.push(assignment);
+
+    // 3. Utiliser le service
+    this.loggingService.log(assignment.nom, 'ajouté');
+
     return of('Assignment ajouté avec succès !');
   }
 
@@ -29,6 +35,10 @@ export class AssignmentsService {
     if (index > -1) {
       this.assignments[index] = assignment;
     }
+
+    // 3. Utiliser le service
+    this.loggingService.log(assignment.nom, 'mis à jour');
+
     return of('Assignment mis à jour !');
   }
 
@@ -37,6 +47,10 @@ export class AssignmentsService {
     if (index > -1) {
       this.assignments.splice(index, 1);
     }
+
+    // 3. Utiliser le service
+    this.loggingService.log(assignment.nom, 'supprimé');
+
     return of('Assignment supprimé');
   }
 }
