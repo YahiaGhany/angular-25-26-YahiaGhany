@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-// Corrigé ici :
-import { Assignment } from '../assignement.model';
+import { Assignment } from '../assignement.model'; // Ton nom de fichier
 import { Observable, of } from 'rxjs';
 
 @Injectable({
@@ -31,5 +30,13 @@ export class AssignmentsService {
       this.assignments[index] = assignment;
     }
     return of('Assignment mis à jour !');
+  }
+
+  deleteAssignment(assignment: Assignment): Observable<string> {
+    const index = this.assignments.findIndex(a => a.id === assignment.id);
+    if (index > -1) {
+      this.assignments.splice(index, 1);
+    }
+    return of('Assignment supprimé');
   }
 }

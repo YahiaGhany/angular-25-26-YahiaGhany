@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-// Corrigé ici :
-import { Assignment } from '../assignement.model';
+import { Assignment } from '../assignement.model'; // Ton nom de fichier
 import { AssignmentsService } from '../shared/assignments.service';
 
 import { CommonModule } from '@angular/common';
@@ -54,12 +53,14 @@ export class AssignmentsComponent implements OnInit {
       });
   }
 
-  onAssignmentSupprime(assignment: Assignment) {
-    // TODO
-    const index = this.assignments.indexOf(assignment);
-    if (index > -1) {
-      this.assignments.splice(index, 1);
-    }
+  onAssignmentSupprime(event: Assignment) {
+    // Le service a déjà supprimé le devoir.
+    // On met juste l'affichage à jour.
+
+    // 1. On cache la carte de détail (pour corriger le bug)
     this.assignmentSelectionne = undefined;
+
+    // 2. On rafraîchit la liste
+    this.getAssignments();
   }
 }

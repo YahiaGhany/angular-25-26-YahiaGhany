@@ -4,8 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 
-// Corrigé ici :
-import { Assignment } from '../../assignement.model';
+import { Assignment } from '../../assignement.model'; // Ton nom de fichier
 import { AssignmentsService } from '../../shared/assignments.service';
 
 @Component({
@@ -30,6 +29,12 @@ export class AssignmentDetailComponent {
 
   onAssignmentSupprime() {
     if (!this.assignmentTransmis) return;
-    this.assignmentSupprime.emit(this.assignmentTransmis);
+
+    this.assignmentsService.deleteAssignment(this.assignmentTransmis)
+      .subscribe(message => {
+        console.log(message);
+        // On prévient le parent que c'est fait
+        this.assignmentSupprime.emit(this.assignmentTransmis);
+      });
   }
 }
