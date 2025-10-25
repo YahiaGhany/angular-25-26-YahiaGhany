@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { AssignmentDetailComponent } from './assignment-detail/assignment-detail';
-import { AddAssignmentComponent } from './add-assignment/add-assignment';
+// On SUPPRIME l'import de AddAssignmentComponent
 
 @Component({
   selector: 'app-assignments',
@@ -15,15 +15,15 @@ import { AddAssignmentComponent } from './add-assignment/add-assignment';
     CommonModule,
     MatListModule,
     MatButtonModule,
-    AssignmentDetailComponent,
-    AddAssignmentComponent
+    AssignmentDetailComponent
+    // On le SUPPRIME des imports
   ],
   templateUrl: './assignments.html',
   styleUrl: './assignments.scss'
 })
 export class AssignmentsComponent implements OnInit {
   titre = "Liste des devoirs";
-  formVisible = false;
+  // On SUPPRIME formVisible
   assignments: Assignment[] = [];
   assignmentSelectionne?: Assignment;
 
@@ -44,23 +44,10 @@ export class AssignmentsComponent implements OnInit {
     this.assignmentSelectionne = assignment;
   }
 
-  onNouvelAssignment(event: Assignment) {
-    this.assignmentsService.addAssignment(event)
-      .subscribe(message => {
-        console.log(message);
-        this.formVisible = false;
-        this.getAssignments();
-      });
-  }
+  // On SUPPRIME toute la méthode onNouvelAssignment()
 
   onAssignmentSupprime(event: Assignment) {
-    // Le service a déjà supprimé le devoir.
-    // On met juste l'affichage à jour.
-
-    // 1. On cache la carte de détail (pour corriger le bug)
     this.assignmentSelectionne = undefined;
-
-    // 2. On rafraîchit la liste
     this.getAssignments();
   }
 }
