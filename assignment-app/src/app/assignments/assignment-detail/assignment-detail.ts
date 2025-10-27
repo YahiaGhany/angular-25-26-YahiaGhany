@@ -1,11 +1,12 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core'; 
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 
-import { Assignment } from '../../assignement.model'; // Ton nom de fichier
+import { Assignment } from '../../assignement.model'; 
 import { AssignmentsService } from '../../shared/assignments.service';
+import { ActivatedRoute, Router } from '@angular/router'; 
 
 @Component({
   selector: 'app-assignment-detail',
@@ -14,17 +15,37 @@ import { AssignmentsService } from '../../shared/assignments.service';
   templateUrl: './assignment-detail.html',
   styleUrls: ['./assignment-detail.scss']
 })
-export class AssignmentDetailComponent {
-  @Input() assignmentTransmis?: Assignment;
-  @Output() assignmentSupprime = new EventEmitter<Assignment>();
+export class AssignmentDetailComponent implements OnInit { 
+  assignmentTransmis?: Assignment;
 
-  constructor(private assignmentsService: AssignmentsService) {}
+  constructor(
+    private assignmentsService: AssignmentsService,
+    private route: ActivatedRoute, 
+    private router: Router 
+  ) {}
+
+  ngOnInit(): void {
+    this.getAssignment();
+  }
+
+  getAssignment() {
+    const id = +this.route.snapshot.params['id'];
+    
+    this.assignmentsService.getAssignment(id)
+      .subscribe(assignment => {
+        this.assignmentTransmis = assignment;
+      });
+  }
 
   onCheckboxChange() {
     if (!this.assignmentTransmis) return;
     this.assignmentTransmis.rendu = !this.assignmentTransmis.rendu;
+
     this.assignmentsService.updateAssignment(this.assignmentTransmis)
-      .subscribe(message => console.log(message));
+      .subscribe(message => {
+        console.log(message);
+        this.router.navigate(['/assignments']);
+      });
   }
 
   onAssignmentSupprime() {
@@ -33,8 +54,7 @@ export class AssignmentDetailComponent {
     this.assignmentsService.deleteAssignment(this.assignmentTransmis)
       .subscribe(message => {
         console.log(message);
-        // On prévient le parent que c'est fait
-        this.assignmentSupprime.emit(this.assignmentTransmis);
+        this.router.navigate(['/assignments']);
       });
   }
 }

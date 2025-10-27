@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Assignment } from '../assignement.model'; // Ton nom de fichier
+import { Assignment } from '../assignement.model'; 
 import { AssignmentsService } from '../shared/assignments.service';
 
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
-import { AssignmentDetailComponent } from './assignment-detail/assignment-detail';
-// On SUPPRIME l'import de AddAssignmentComponent
+
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-assignments',
@@ -15,17 +15,14 @@ import { AssignmentDetailComponent } from './assignment-detail/assignment-detail
     CommonModule,
     MatListModule,
     MatButtonModule,
-    AssignmentDetailComponent
-    // On le SUPPRIME des imports
+    RouterLink 
   ],
   templateUrl: './assignments.html',
   styleUrl: './assignments.scss'
 })
 export class AssignmentsComponent implements OnInit {
   titre = "Liste des devoirs";
-  // On SUPPRIME formVisible
   assignments: Assignment[] = [];
-  assignmentSelectionne?: Assignment;
 
   constructor(private assignmentsService: AssignmentsService) {}
 
@@ -40,14 +37,5 @@ export class AssignmentsComponent implements OnInit {
       });
   }
 
-  assignmentClique(assignment: Assignment) {
-    this.assignmentSelectionne = assignment;
-  }
-
-  // On SUPPRIME toute la méthode onNouvelAssignment()
-
-  onAssignmentSupprime(event: Assignment) {
-    this.assignmentSelectionne = undefined;
-    this.getAssignments();
-  }
+  
 }
