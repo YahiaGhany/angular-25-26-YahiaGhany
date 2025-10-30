@@ -4,19 +4,34 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthService {
-  loggedIn = false;
+  
+  private users = [
+    { login: 'admin', password: 'password', role: 'admin' },
+    { login: 'user', password: 'password', role: 'user' }
+  ];
+
+  private currentUser: any = null;
 
   constructor() { }
 
-  login() {
-    this.loggedIn = true;
+  logIn(login: string, password: string): boolean {
+    const user = this.users.find(u => u.login === login && u.password === password);
+    if (user) {
+      this.currentUser = user;
+      return true;
+    }
+    return false;
   }
 
-  logout() {
-    this.loggedIn = false;
+  logOut() {
+    this.currentUser = null;
   }
 
-  isAdmin() {
-    return this.loggedIn;
+  isLoggedIn(): boolean {
+    return !!this.currentUser;
+  }
+
+  isAdmin(): boolean {
+    return this.isLoggedIn() && this.currentUser.role === 'admin';
   }
 }

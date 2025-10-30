@@ -2,11 +2,18 @@
 
   <mat-sidenav #sidenav mode="side" opened>
     <div class="sidenav-header">
-      <mat-slide-toggle 
-        [(ngModel)]="isAdmin" 
-        (change)="onAdminToggle()">
-        Mode Admin
-      </mat-slide-toggle>
+      
+      @if (!isLoggedIn) {
+        <button mat-flat-button color="primary" routerLink="/login">
+          Login
+        </button>
+      }
+      @if (isLoggedIn) {
+        <button mat-flat-button color="warn" (click)="logOut()">
+          Logout
+        </button>
+      }
+
     </div>
     <app-sidenav></app-sidenav>
   </mat-sidenav>

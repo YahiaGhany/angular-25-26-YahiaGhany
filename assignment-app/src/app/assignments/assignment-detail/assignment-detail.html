@@ -20,7 +20,9 @@
         EDITER
       </button>
 
-      <button mat-flat-button color="warn" (click)="onAssignmentSupprime()">
+      <button mat-flat-button color="warn" 
+        (click)="onAssignmentSupprime()"
+        [disabled]="!isAdmin">
         SUPPRIMER
       </button>
     </mat-card-actions>
