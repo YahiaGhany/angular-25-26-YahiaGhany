@@ -1,17 +1,21 @@
 <mat-sidenav-container class="sidenav-container">
 
   <mat-sidenav #sidenav mode="side" opened>
+    <div class="sidenav-header">
+      <mat-slide-toggle 
+        [(ngModel)]="isAdmin" 
+        (change)="onAdminToggle()">
+        Mode Admin
+      </mat-slide-toggle>
+    </div>
     <app-sidenav></app-sidenav>
   </mat-sidenav>
 
   <mat-sidenav-content>
-
     <app-toolbar (menuToggle)="sidenav.toggle()"></app-toolbar>
-
     <div class="main-content">
       <router-outlet></router-outlet>
     </div>
-
   </mat-sidenav-content>
 
 </mat-sidenav-container>

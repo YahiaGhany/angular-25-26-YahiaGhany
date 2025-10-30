@@ -27,3 +27,11 @@ mat-sidenav {
   width: 250px;
   background-color: #e0e0e0;
 }
+
+.sidenav-header {
+  padding: 16px;
+  background-color: #d0d0d0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

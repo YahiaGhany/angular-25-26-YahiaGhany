@@ -4,11 +4,16 @@ import { AddAssignmentComponent } from './assignments/add-assignment/add-assignm
 import { AssignmentDetailComponent } from './assignments/assignment-detail/assignment-detail';
 import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assignment';
 
+import { authGuard } from './shared/auth.guard';
+
 export const routes: Routes = [
   { path: '', redirectTo: 'assignments', pathMatch: 'full' },
   { path: 'assignments', component: AssignmentsComponent },
   { path: 'ajout-devoir', component: AddAssignmentComponent },
   { path: 'assignment/:id', component: AssignmentDetailComponent },
-  
-  { path: 'assignment/:id/edit', component: EditAssignmentComponent }
+  { 
+    path: 'assignment/:id/edit', 
+    component: EditAssignmentComponent,
+    canActivate: [authGuard] 
+  }
 ];
