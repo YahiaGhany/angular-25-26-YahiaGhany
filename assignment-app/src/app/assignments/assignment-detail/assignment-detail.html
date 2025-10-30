@@ -15,7 +15,8 @@
       </mat-checkbox>
       
       <button mat-flat-button color="primary"
-        [routerLink]="['/assignment', assignmentTransmis.id, 'edit']">
+        [routerLink]="['/assignment', assignmentTransmis.id, 'edit']"
+        [disabled]="!isAdmin">
         EDITER
       </button>
 

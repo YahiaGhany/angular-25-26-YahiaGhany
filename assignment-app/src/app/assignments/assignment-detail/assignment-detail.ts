@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
-import { Assignment } from '../../assignement.model'; 
+import { Assignment } from '../../assignement.model';
 import { AssignmentsService } from '../../shared/assignments.service';
-
-import { ActivatedRoute, Router, RouterLink } from '@angular/router'; 
+import { AuthService } from '../../shared/auth.service';
 
 @Component({
   selector: 'app-assignment-detail',
@@ -17,7 +17,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
     MatCardModule,
     MatCheckboxModule,
     MatButtonModule,
-    RouterLink 
+    RouterLink
   ],
   templateUrl: './assignment-detail.html',
   styleUrls: ['./assignment-detail.scss']
@@ -28,7 +28,8 @@ export class AssignmentDetailComponent implements OnInit {
   constructor(
     private assignmentsService: AssignmentsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +42,10 @@ export class AssignmentDetailComponent implements OnInit {
       .subscribe(assignment => {
         this.assignmentTransmis = assignment;
       });
+  }
+
+  get isAdmin(): boolean {
+    return this.authService.isAdmin();
   }
 
   onCheckboxChange() {
