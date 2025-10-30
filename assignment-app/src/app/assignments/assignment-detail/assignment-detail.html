@@ -14,13 +14,21 @@
         Rendu
       </mat-checkbox>
       
+      <button mat-flat-button color="primary"
+        [routerLink]="['/assignment', assignmentTransmis.id, 'edit']">
+        EDITER
+      </button>
+
       <button mat-flat-button color="warn" (click)="onAssignmentSupprime()">
         SUPPRIMER
       </button>
     </mat-card-actions>
   </mat-card>
 } @else {
-  <p class="no-selection">
-    Cliquez sur un devoir pour afficher les détails.
-  </p>
+  <mat-card>
+    <mat-card-title>Devoir non trouvé</mat-card-title>
+    <mat-card-content>
+      <p>Cet assignment n'existe pas ou a été supprimé.</p>
+    </mat-card-content>
+  </mat-card>
 }

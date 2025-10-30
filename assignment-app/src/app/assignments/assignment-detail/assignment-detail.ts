@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'; 
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -6,12 +6,19 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { Assignment } from '../../assignement.model'; 
 import { AssignmentsService } from '../../shared/assignments.service';
-import { ActivatedRoute, Router } from '@angular/router'; 
+
+import { ActivatedRoute, Router, RouterLink } from '@angular/router'; 
 
 @Component({
   selector: 'app-assignment-detail',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatCheckboxModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    RouterLink 
+  ],
   templateUrl: './assignment-detail.html',
   styleUrls: ['./assignment-detail.scss']
 })
@@ -20,8 +27,8 @@ export class AssignmentDetailComponent implements OnInit {
 
   constructor(
     private assignmentsService: AssignmentsService,
-    private route: ActivatedRoute, 
-    private router: Router 
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -30,7 +37,6 @@ export class AssignmentDetailComponent implements OnInit {
 
   getAssignment() {
     const id = +this.route.snapshot.params['id'];
-    
     this.assignmentsService.getAssignment(id)
       .subscribe(assignment => {
         this.assignmentTransmis = assignment;
