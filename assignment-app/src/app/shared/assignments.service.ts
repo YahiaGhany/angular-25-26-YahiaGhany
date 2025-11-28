@@ -1,52 +1,68 @@
 import { Injectable } from '@angular/core';
-import { Assignment } from '../assignement.model'; 
-import { Observable, of } from 'rxjs';
+import { Assignment } from '../assignement.model';
+import { Observable, of, forkJoin } from 'rxjs'; // 1. Ajout de forkJoin
 import { LoggingService } from './logging.service';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { bdInitialAssignments } from './data'; // 2. Import des données
 
 @Injectable({
   providedIn: 'root'
 })
 export class AssignmentsService {
-  private assignments: Assignment[] = [
-    { id: 1, nom: 'Devoir Angular', dateDeRendu: '2025-10-10', rendu: false },
-    { id: 2, nom: 'TP TypeScript', dateDeRendu: '2025-10-12', rendu: true },
-    { id: 3, nom: 'Projet M2', dateDeRendu: '2025-01-15', rendu: false }
-  ];
+  private uri = 'http://localhost:8010/api/assignments';
 
-  constructor(private loggingService: LoggingService) { }
+  constructor(
+    private loggingService: LoggingService,
+    private http: HttpClient
+  ) { }
 
   getAssignments(): Observable<Assignment[]> {
-    return of(this.assignments);
+    return this.http.get<Assignment[]>(this.uri);
   }
 
   getAssignment(id: number): Observable<Assignment | undefined> {
-    const assignment = this.assignments.find(a => a.id === id);
-    return of(assignment);
+    return this.http.get<Assignment>(this.uri + '/' + id)
+      .pipe(catchError(this.handleError<any>('getAssignment id=' + id)));
   }
 
-  addAssignment(assignment: Assignment): Observable<string> {
-    assignment.id = Math.floor(Math.random() * 10000);
-
-    this.assignments.push(assignment);
+  addAssignment(assignment: Assignment): Observable<any> {
+    // Si l'id n'est pas défini, on en génère un
+    if (!assignment.id) {
+        assignment.id = Math.floor(Math.random() * 10000000);
+    }
     this.loggingService.log(assignment.nom, 'ajouté');
-    return of('Assignment ajouté avec succès !');
+    return this.http.post<Assignment>(this.uri, assignment);
   }
 
-  updateAssignment(assignment: Assignment): Observable<string> {
-    const index = this.assignments.findIndex(a => a.id === assignment.id);
-    if (index > -1) {
-      this.assignments[index] = assignment;
-    }
-    this.loggingService.log(assignment.nom, 'mis à jour');
-    return of('Assignment mis à jour !');
+  updateAssignment(assignment: Assignment): Observable<any> {
+    this.loggingService.log(assignment.nom, 'modifié');
+    return this.http.put<Assignment>(this.uri, assignment);
   }
 
-  deleteAssignment(assignment: Assignment): Observable<string> {
-    const index = this.assignments.findIndex(a => a.id === assignment.id);
-    if (index > -1) {
-      this.assignments.splice(index, 1);
-    }
+  deleteAssignment(assignment: Assignment): Observable<any> {
     this.loggingService.log(assignment.nom, 'supprimé');
-    return of('Assignment supprimé');
+    return this.http.delete(this.uri + '/' + assignment.id);
+  }
+
+  // --- NOUVELLE MÉTHODE ---
+  peuplerBD(): Observable<any> {
+    let appelsVersAddAssignment: Observable<any>[] = [];
+
+    bdInitialAssignments.forEach(a => {
+      const nouvelAssignment = { ...a }; // On copie l'objet
+      nouvelAssignment.id = Math.floor(Math.random() * 10000000); // Nouvel ID unique
+      appelsVersAddAssignment.push(this.addAssignment(nouvelAssignment));
+    });
+
+    return forkJoin(appelsVersAddAssignment); // On attend que tout soit fini
+  }
+
+  private handleError<T>(operation: any, result?: T) {
+    return (error: any): Observable<T> => {
+      console.log(error);
+      console.log(operation + ' a échoué ' + error.message);
+      return of(result as T);
+    }
   }
 }
