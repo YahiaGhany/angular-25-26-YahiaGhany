@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Assignment } from '../assignement.model';
-import { Observable, of, forkJoin } from 'rxjs'; // 1. Ajout de forkJoin
+import { Observable, of, forkJoin } from 'rxjs';
 import { LoggingService } from './logging.service';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { bdInitialAssignments } from './data'; // 2. Import des données
+import { bdInitialAssignments } from './data';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,8 @@ export class AssignmentsService {
     private http: HttpClient
   ) { }
 
-  getAssignments(): Observable<Assignment[]> {
-    return this.http.get<Assignment[]>(this.uri);
+  getAssignments(page: number, limit: number): Observable<any> {
+    return this.http.get<any>(this.uri + "?page=" + page + "&limit=" + limit);
   }
 
   getAssignment(id: number): Observable<Assignment | undefined> {
@@ -27,7 +27,6 @@ export class AssignmentsService {
   }
 
   addAssignment(assignment: Assignment): Observable<any> {
-    // Si l'id n'est pas défini, on en génère un
     if (!assignment.id) {
         assignment.id = Math.floor(Math.random() * 10000000);
     }
@@ -45,17 +44,16 @@ export class AssignmentsService {
     return this.http.delete(this.uri + '/' + assignment.id);
   }
 
-  // --- NOUVELLE MÉTHODE ---
   peuplerBD(): Observable<any> {
     let appelsVersAddAssignment: Observable<any>[] = [];
 
     bdInitialAssignments.forEach(a => {
-      const nouvelAssignment = { ...a }; // On copie l'objet
-      nouvelAssignment.id = Math.floor(Math.random() * 10000000); // Nouvel ID unique
+      const nouvelAssignment = { ...a };
+      nouvelAssignment.id = Math.floor(Math.random() * 10000000);
       appelsVersAddAssignment.push(this.addAssignment(nouvelAssignment));
     });
 
-    return forkJoin(appelsVersAddAssignment); // On attend que tout soit fini
+    return forkJoin(appelsVersAddAssignment);
   }
 
   private handleError<T>(operation: any, result?: T) {

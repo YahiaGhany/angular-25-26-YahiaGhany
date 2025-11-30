@@ -1,16 +1,39 @@
 <main class="assignments-container">
   <h2>{{ titre }}</h2>
+  
+  <p>Nombre total de devoirs : {{ totalDocs }}</p>
 
   <mat-list>
     <a mat-list-item
       *ngFor="let assignment of assignments"
       [routerLink]="['/assignment', assignment.id]"
       [class.rendu]="assignment.rendu">
-
       <h3 matListItemTitle>{{ assignment.nom }}</h3>
-      <p matListItemLine>Date de rendu : {{ assignment.dateDeRendu }}</p>
-
+      <p matListItemLine>Date de rendu : {{ assignment.dateDeRendu | date }}</p>
     </a>
   </mat-list>
 
-  </main>
+  <div class="pagination">
+    <button mat-raised-button color="primary" 
+            (click)="premierePage()" [disabled]="page === 1">
+      Première
+    </button>
+
+    <button mat-raised-button color="primary" 
+            (click)="pagePrecedente()" [disabled]="!hasPrevPage">
+      Précédent
+    </button>
+
+    <span class="page-info">Page {{ page }} / {{ totalPages }}</span>
+
+    <button mat-raised-button color="primary" 
+            (click)="pageSuivante()" [disabled]="!hasNextPage">
+      Suivant
+    </button>
+
+    <button mat-raised-button color="primary" 
+            (click)="dernierePage()" [disabled]="page === totalPages">
+      Dernière
+    </button>
+  </div>
+</main>
