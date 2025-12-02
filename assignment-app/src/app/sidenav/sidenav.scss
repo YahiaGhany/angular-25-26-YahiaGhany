@@ -1,21 +1,27 @@
 mat-nav-list {
-  padding-top: 12px;
+  padding: 16px;
 
   a {
-    display: block;
-    padding: 10px 16px;
-    border-radius: 6px;
-    transition: background 0.2s ease;
-    text-decoration: none;
-    color: #333;
+    margin-bottom: 8px;
+    border-radius: 12px; /* Arrondi prononcé */
+    transition: all 0.3s ease;
+    color: #546e7a;
+    font-weight: 500;
+    font-size: 0.95rem;
 
+    /* Effet au survol : léger décalage et fond doux */
     &:hover {
-      background-color: rgba(25, 118, 210, 0.1); 
+      background-color: #e8eaf6;
+      color: #3f51b5;
+      transform: translateX(5px);
     }
 
-    &.active {
-      background-color: rgba(25, 118, 210, 0.2); 
-      font-weight: 500;
+    /* Style du lien actif (quand on est sur la page) */
+    &.active-link {
+      background-color: #e3f2fd;
+      color: #1565c0;
+      font-weight: 600;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     }
   }
 }

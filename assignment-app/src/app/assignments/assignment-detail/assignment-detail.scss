@@ -1,0 +1,49 @@
+/* On centre la carte au milieu de l'écran avec une belle ombre */
+mat-card {
+  max-width: 600px;
+  margin: 40px auto;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  padding: 20px;
+  border: none;
+  background: white;
+}
+
+mat-card-header {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+mat-card-title {
+  font-size: 1.8rem;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+mat-card-subtitle {
+  font-size: 1rem;
+  color: #7f8c8d;
+  margin-top: 8px;
+}
+
+mat-card-content {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #555;
+  padding: 20px 0;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end; /* Boutons à droite */
+  gap: 10px;
+  padding-top: 20px;
+  border-top: 1px solid #f5f5f5;
+}
+
+/* Style spécifique pour la checkbox */
+mat-checkbox {
+  margin-right: auto; /* Pousse les boutons à droite */
+  font-weight: 500;
+}

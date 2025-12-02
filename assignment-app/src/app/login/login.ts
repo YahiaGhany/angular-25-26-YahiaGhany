@@ -33,6 +33,10 @@ export class LoginComponent {
   onSubmit() {
     if (!this.login || !this.password) return;
 
+    // --- Ligne de débogage ajoutée ---
+    console.log("Tentative de connexion avec:", this.login, "et", this.password);
+    // ---------------------------------
+
     if (this.authService.logIn(this.login, this.password)) {
       this.errorMessage = '';
       this.router.navigate(['/assignments']);

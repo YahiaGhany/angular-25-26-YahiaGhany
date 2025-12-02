@@ -1,37 +1,46 @@
+/* On force le conteneur à prendre toute la place disponible */
 .sidenav-container {
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  background-color: #f0f0f0;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #eceff1; /* Couleur de fond unique pour éviter les coupures */
 }
 
+/* Menu latéral */
+mat-sidenav {
+  width: 260px;
+  background-color: white; /* Menu blanc pour contraster */
+  border-right: 1px solid #e0e0e0;
+}
+
+/* Contenu principal */
 .mat-sidenav-content {
+  background-color: #eceff1; /* Même couleur que le conteneur */
   display: flex;
   flex-direction: column;
-  flex: 1;
 }
 
 .main-content {
   flex: 1;
-  padding: 24px;
-  background-color: #ffffff;
-  min-height: calc(100vh - 64px);
+  padding: 32px;
+  max-width: 1200px;
+  margin: 0 auto; /* Centre le contenu sur les grands écrans */
+  width: 100%;
   box-sizing: border-box;
 }
 
-app-toolbar {
-  flex-shrink: 0;
-}
-
-mat-sidenav {
-  width: 250px;
-  background-color: #e0e0e0;
-}
-
+/* Header du menu (Login) */
 .sidenav-header {
-  padding: 16px;
-  background-color: #d0d0d0;
+  padding: 24px;
+  background-color: #fafafa;
+  border-bottom: 1px solid #eee;
   display: flex;
   justify-content: center;
-  align-items: center;
+}
+
+app-toolbar {
+  z-index: 2; /* S'assure que la barre reste au-dessus */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Ombre légère */
 }

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; // <-- NOUVEL IMPORT
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { Assignment } from '../../assignement.model';
@@ -17,6 +18,7 @@ import { AuthService } from '../../shared/auth.service';
     MatCardModule,
     MatCheckboxModule,
     MatButtonModule,
+    MatProgressSpinnerModule, // <-- NOUVEL IMPORT
     RouterLink
   ],
   templateUrl: './assignment-detail.html',
@@ -24,6 +26,7 @@ import { AuthService } from '../../shared/auth.service';
 })
 export class AssignmentDetailComponent implements OnInit { 
   assignmentTransmis?: Assignment;
+  loading: boolean = true; // <-- NOUVELLE PROPRIÉTÉ
 
   constructor(
     private assignmentsService: AssignmentsService,
@@ -37,10 +40,12 @@ export class AssignmentDetailComponent implements OnInit {
   }
 
   getAssignment() {
+    this.loading = true; // Début du chargement
     const id = +this.route.snapshot.params['id'];
     this.assignmentsService.getAssignment(id)
       .subscribe(assignment => {
         this.assignmentTransmis = assignment;
+        this.loading = false; // Fin du chargement
       });
   }
 

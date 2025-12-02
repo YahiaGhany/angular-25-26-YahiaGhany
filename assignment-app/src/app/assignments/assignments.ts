@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon'; // 1. Import nécessaire
 import { RouterLink } from '@angular/router';
 import { Assignment } from '../assignement.model';
 import { AssignmentsService } from '../shared/assignments.service';
@@ -13,10 +14,11 @@ import { AssignmentsService } from '../shared/assignments.service';
     CommonModule,
     MatListModule,
     MatButtonModule,
+    MatIconModule, // 2. Ajouté ici
     RouterLink
   ],
   templateUrl: './assignments.html',
-  styleUrl: './assignments.scss'
+  styleUrls: ['./assignments.scss']
 })
 export class AssignmentsComponent implements OnInit {
   titre = "Liste des devoirs";

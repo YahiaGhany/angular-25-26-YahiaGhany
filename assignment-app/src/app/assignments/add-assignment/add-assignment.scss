@@ -1,0 +1,55 @@
+.add-assignment-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 40px;
+  height: 100%;
+}
+
+mat-card {
+  width: 100%;
+  max-width: 500px;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08); /* Ombre douce */
+  background: white;
+}
+
+mat-card-title {
+  color: #37474f; /* Gris foncé pro */
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+mat-card-subtitle {
+  color: #78909c;
+  margin-bottom: 24px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Champs de saisie */
+mat-form-field {
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* Bouton Ajouter discret (Gris foncé/Bleu nuit) */
+.btn-submit {
+  background-color: #455a64;
+  color: white;
+  
+  &:disabled {
+    background-color: #cfd8dc;
+  }
+}

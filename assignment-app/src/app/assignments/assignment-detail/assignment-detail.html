@@ -1,4 +1,11 @@
-@if (assignmentTransmis) {
+@if (loading) {
+  <mat-card class="loading-card">
+    <mat-card-title>Chargement du devoir...</mat-card-title>
+    <mat-card-content style="display: flex; justify-content: center;">
+      <mat-spinner diameter="30"></mat-spinner>
+    </mat-card-content>
+  </mat-card>
+} @else if (assignmentTransmis) {
   <mat-card>
     <mat-card-header>
       <mat-card-title>{{ assignmentTransmis.nom }}</mat-card-title>
@@ -32,5 +39,8 @@
 } @else {
   <mat-card>
     <mat-card-title>Devoir non trouvé</mat-card-title>
+    <mat-card-content>
+      <p>Cet assignment n'existe pas ou a été supprimé.</p>
+    </mat-card-content>
   </mat-card>
 }

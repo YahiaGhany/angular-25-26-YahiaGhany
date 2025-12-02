@@ -1,28 +1,33 @@
-@use '@angular/material' as mat; 
+/* Configuration de base Angular Material */
+@use '@angular/material' as mat;
 
+@include mat.core();
 
-html {
-  @include mat.theme((
-    color: (
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
-}
+/* NOUVELLE PALETTE : SOBRE ET DISCRÈTE */
 
-body {
-  
-  color-scheme: light;
+/* Primary : Blue-Grey (Gris bleuté foncé, très pro) */
+$tp-primary: mat.m2-define-palette(mat.$m2-blue-grey-palette, 800);
 
- 
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
+/* Accent : Cyan/Teal (Pour remplacer le rose par une touche de couleur froide) */
+$tp-accent: mat.m2-define-palette(mat.$m2-cyan-palette, 700);
 
-  margin: 0;
-}
+/* Warn : Reste rouge pour les erreurs */
+$tp-warn: mat.m2-define-palette(mat.$m2-red-palette);
+
+$tp-theme: mat.m2-define-light-theme((
+  color: (
+    primary: $tp-primary,
+    accent: $tp-accent,
+    warn: $tp-warn,
+  ),
+  typography: mat.m2-define-typography-config(
+    $font-family: 'Poppins, sans-serif'
+  )
+));
+
+@include mat.all-component-themes($tp-theme);
+
+/* --- STYLES GLOBAUX --- */
 
 html, body {
   height: 100%;
@@ -30,5 +35,18 @@ html, body {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: 'Poppins', sans-serif;
+  background-color: #eceff1; /* Gris très clair, reposant pour les yeux */
+  color: #37474f; /* Texte gris foncé, moins agressif que le noir pur */
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+h1, h2, h3 {
+  font-weight: 500;
+  color: #263238; /* Titres foncés */
+  margin-bottom: 1rem;
 }

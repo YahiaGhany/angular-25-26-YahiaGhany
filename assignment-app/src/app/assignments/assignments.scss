@@ -1,28 +1,101 @@
 .assignments-container {
-  padding: 24px;
-  max-width: 800px;
+  padding: 40px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
+h2 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #455a64; /* Gris bleuté */
+  position: relative;
+  
+  /* Ligne décorative sobre */
+  &::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #607d8b, #00acc1);
+    margin: 10px auto 0;
+    border-radius: 2px;
+  }
+}
+
+/* La liste */
+mat-list {
+  background: transparent !important;
+}
+
+/* Cartes sobres */
 mat-list-item {
-  cursor: pointer;
-  border-bottom: 1px solid #eee;
-  &:hover { background-color: #f5f5f5; }
+  background-color: white;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: all 0.2s ease-in-out;
+  border-left: 5px solid #cfd8dc;
+  height: auto !important;
+  padding: 12px 0;
+
+  &:hover {
+    transform: translateX(5px);
+    border-left-color: #607d8b;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    cursor: pointer;
+  }
+
+  /* Rendu : Vert discret */
+  &.rendu {
+    border-left-color: #66bb6a;
+    background-color: #f1f8e9;
+    
+    h3 {
+      color: #2e7d32;
+    }
+  }
+
+  /* Non Rendu : Rouge discret */
+  &:not(.rendu) {
+    border-left-color: #ef5350;
+  }
 }
 
-.rendu {
-  background-color: #dcedc8;
-  h3 { text-decoration: line-through; }
-}
-
+/* Pagination propre */
 .pagination {
-  margin-top: 20px;
+  margin-top: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
+  
+  .page-info {
+    font-size: 1rem;
+    color: #546e7a;
+    background: #e0e0e0;
+    padding: 6px 16px;
+    border-radius: 4px;
+  }
 }
 
-.page-info {
-  font-weight: bold;
+/* --- NOUVEAUX STYLES AJOUTÉS POUR LE STATUT --- */
+
+.status-text {
+  display: flex;       /* Pour aligner le texte et l'icône */
+  align-items: center;
+  gap: 8px;            /* Espace entre texte et icône */
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+/* Style Vert */
+.text-vert {
+  color: #2e7d32;
+}
+
+/* Style Rouge */
+.text-rouge {
+  color: #c62828;
 }
