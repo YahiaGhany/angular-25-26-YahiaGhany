@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Assignment } from '../assignement.model';
 import { Observable, of, forkJoin } from 'rxjs';
 import { LoggingService } from './logging.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { bdInitialAssignments } from './data';
 
@@ -10,15 +10,27 @@ import { bdInitialAssignments } from './data';
   providedIn: 'root'
 })
 export class AssignmentsService {
-  private uri = 'http://localhost:8010/api/assignments';
+  private uri = 'https://angular-25-26-yahiaghany.onrender.com';
 
   constructor(
     private loggingService: LoggingService,
     private http: HttpClient
   ) { }
 
-  getAssignments(page: number, limit: number): Observable<any> {
-    return this.http.get<any>(this.uri + "?page=" + page + "&limit=" + limit);
+  getAssignments(page: number, limit: number, rendu?: boolean, search?: string): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page)
+      .set('limit', limit);
+
+    if (rendu !== undefined) {
+      params = params.set('rendu', rendu);
+    }
+
+    if (search) {
+      params = params.set('search', search);
+    }
+
+    return this.http.get<any>(this.uri, { params });
   }
 
   getAssignment(id: number): Observable<Assignment | undefined> {
@@ -46,13 +58,11 @@ export class AssignmentsService {
 
   peuplerBD(): Observable<any> {
     let appelsVersAddAssignment: Observable<any>[] = [];
-
     bdInitialAssignments.forEach(a => {
       const nouvelAssignment = { ...a };
       nouvelAssignment.id = Math.floor(Math.random() * 10000000);
       appelsVersAddAssignment.push(this.addAssignment(nouvelAssignment));
     });
-
     return forkJoin(appelsVersAddAssignment);
   }
 

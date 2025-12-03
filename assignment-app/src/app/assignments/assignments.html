@@ -1,49 +1,69 @@
 <main class="assignments-container">
-  <h2>{{ titre }}</h2>
   
-  <p>Nombre total de devoirs : {{ totalDocs }}</p>
+  <div class="header-box">
+    <h2>{{ titre }}</h2>
+    
+    <div class="filters-container">
+      <mat-form-field appearance="outline" class="search-field dense-field">
+        <mat-label>Rechercher</mat-label>
+        <input matInput [(ngModel)]="searchTerm" (keyup)="onFilterChange()">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="filter-field dense-field">
+        <mat-select [(ngModel)]="filterRendu" (selectionChange)="onFilterChange()">
+          <mat-option value="tous">Tous</mat-option>
+          <mat-option value="rendu">Rendus</mat-option>
+          <mat-option value="non-rendu">À faire</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <p class="total-count" *ngIf="totalDocs > 0">Total : {{ totalDocs }} devoirs</p>
+  <p class="total-count" *ngIf="totalDocs === 0">Aucun devoir trouvé.</p>
 
   <mat-list>
     <a mat-list-item
       *ngFor="let assignment of assignments"
       [routerLink]="['/assignment', assignment.id]"
-      [class.rendu]="assignment.rendu">
+      class="assignment-item">
 
-      <h3 matListItemTitle>{{ assignment.nom }}</h3>
-      <p matListItemLine>Date de rendu : {{ assignment.dateDeRendu | date:'dd/MM/yyyy' }}</p>
+      <h3 matListItemTitle [ngClass]="{'text-vert': assignment.rendu, 'text-rouge': !assignment.rendu}">
+        {{ assignment.nom }}
+      </h3>
+      
+      <p matListItemLine>Date : {{ assignment.dateDeRendu | date:'dd/MM/yyyy' }}</p>
 
-      <div matListItemMeta class="status-container">
-        
-        <span *ngIf="assignment.rendu" class="status-text text-vert">
-          Rendu <mat-icon>check_circle</mat-icon>
+      <div matListItemMeta>
+        <span *ngIf="assignment.rendu" class="badge badge-vert">
+          Rendu <mat-icon class="small-icon">check</mat-icon>
         </span>
-
-        <span *ngIf="!assignment.rendu" class="status-text text-rouge">
-          À rendre <mat-icon>priority_high</mat-icon>
+        <span *ngIf="!assignment.rendu" class="badge badge-rouge">
+          À rendre <mat-icon class="small-icon">close</mat-icon>
         </span>
-
       </div>
 
     </a>
   </mat-list>
 
   <div class="pagination">
-    <button mat-raised-button color="primary" (click)="premierePage()" [disabled]="page === 1">
-      Première
+    <button mat-icon-button (click)="premierePage()" [disabled]="page === 1">
+      <mat-icon>first_page</mat-icon>
     </button>
 
-    <button mat-raised-button color="primary" (click)="pagePrecedente()" [disabled]="!hasPrevPage">
-      Précédent
+    <button mat-icon-button (click)="pagePrecedente()" [disabled]="!hasPrevPage">
+      <mat-icon>chevron_left</mat-icon>
     </button>
 
-    <span class="page-info">Page {{ page }} / {{ totalPages }}</span>
+    <span class="page-info">{{ page }} / {{ totalPages }}</span>
 
-    <button mat-raised-button color="primary" (click)="pageSuivante()" [disabled]="!hasNextPage">
-      Suivant
+    <button mat-icon-button (click)="pageSuivante()" [disabled]="!hasNextPage">
+      <mat-icon>chevron_right</mat-icon>
     </button>
 
-    <button mat-raised-button color="primary" (click)="dernierePage()" [disabled]="page === totalPages">
-      Dernière
+    <button mat-icon-button (click)="dernierePage()" [disabled]="page === totalPages">
+      <mat-icon>last_page</mat-icon>
     </button>
   </div>
 </main>

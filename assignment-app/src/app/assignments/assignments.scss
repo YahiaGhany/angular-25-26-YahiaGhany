@@ -1,101 +1,134 @@
+/* Conteneur principal centré */
 .assignments-container {
-  padding: 40px;
-  max-width: 900px;
+  padding: 24px;
+  max-width: 850px;
   margin: 0 auto;
 }
 
+/* --- EN-TÊTE (TITRE + FILTRES) --- */
+.header-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap; /* Passe à la ligne sur mobile */
+  gap: 15px;
+}
+
 h2 {
-  font-size: 2rem;
-  text-align: center;
-  margin-bottom: 40px;
-  color: #455a64; /* Gris bleuté */
-  position: relative;
-  
-  /* Ligne décorative sobre */
-  &::after {
-    content: '';
-    display: block;
-    width: 60px;
-    height: 4px;
-    background: linear-gradient(90deg, #607d8b, #00acc1);
-    margin: 10px auto 0;
-    border-radius: 2px;
-  }
+  margin: 0;
+  font-size: 1.5rem;
+  color: #37474f; /* Gris foncé élégant */
+  font-weight: 500;
 }
 
-/* La liste */
-mat-list {
-  background: transparent !important;
+/* Zone des filtres */
+.filters-container {
+  display: flex;
+  gap: 10px;
 }
 
-/* Cartes sobres */
-mat-list-item {
+/* Champs de formulaire compacts */
+.dense-field {
+  font-size: 15px;
+}
+
+mat-form-field {
+  width: 160px; /* Largeur fixe pour l'harmonie */
   background-color: white;
-  margin-bottom: 16px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  transition: all 0.2s ease-in-out;
-  border-left: 5px solid #cfd8dc;
-  height: auto !important;
-  padding: 12px 0;
+  border-radius: 4px;
+}
 
+/* Compteur total discret */
+.total-count {
+  font-size: 0.85rem;
+  color: #90a4ae;
+  margin-bottom: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* --- LISTE DES DEVOIRS --- */
+mat-list {
+  padding: 0;
+  background: transparent;
+}
+
+/* Chaque ligne de devoir */
+.assignment-item {
+  background-color: white;
+  border-bottom: 1px solid #eceff1; /* Ligne de séparation très légère */
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  
   &:hover {
-    transform: translateX(5px);
-    border-left-color: #607d8b;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    cursor: pointer;
+    background-color: #fafafa; /* Gris très pâle au survol */
   }
 
-  /* Rendu : Vert discret */
-  &.rendu {
-    border-left-color: #66bb6a;
-    background-color: #f1f8e9;
-    
-    h3 {
-      color: #2e7d32;
-    }
-  }
-
-  /* Non Rendu : Rouge discret */
-  &:not(.rendu) {
-    border-left-color: #ef5350;
+  /* Pour le dernier élément, pas de bordure en bas */
+  &:last-child {
+    border-bottom: none;
   }
 }
 
-/* Pagination propre */
+/* Titres colorés */
+.text-vert { color: #2e7d32; font-weight: 500; }
+.text-rouge { color: #c62828; font-weight: 500; }
+
+/* --- BADGES (ÉTIQUETTES) --- */
+.badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  padding: 4px 10px;
+  border-radius: 12px; /* Forme de pilule */
+  gap: 6px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Badge Vert (Rendu) */
+.badge-vert {
+  background-color: #e8f5e9; /* Fond vert très clair */
+  color: #2e7d32;            /* Texte vert foncé */
+  border: 1px solid #c8e6c9; /* Bordure subtile */
+}
+
+/* Badge Rouge (À rendre) */
+.badge-rouge {
+  background-color: #ffebee; /* Fond rouge très clair */
+  color: #c62828;            /* Texte rouge foncé */
+  border: 1px solid #ffcdd2; /* Bordure subtile */
+}
+
+/* Petite icône dans le badge */
+.small-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- PAGINATION --- */
 .pagination {
-  margin-top: 40px;
+  margin-top: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: 8px;
   
   .page-info {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
     color: #546e7a;
-    background: #e0e0e0;
-    padding: 6px 16px;
-    border-radius: 4px;
+    background-color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #eceff1;
   }
-}
-
-/* --- NOUVEAUX STYLES AJOUTÉS POUR LE STATUT --- */
-
-.status-text {
-  display: flex;       /* Pour aligner le texte et l'icône */
-  align-items: center;
-  gap: 8px;            /* Espace entre texte et icône */
-  font-weight: 500;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-}
-
-/* Style Vert */
-.text-vert {
-  color: #2e7d32;
-}
-
-/* Style Rouge */
-.text-rouge {
-  color: #c62828;
 }
