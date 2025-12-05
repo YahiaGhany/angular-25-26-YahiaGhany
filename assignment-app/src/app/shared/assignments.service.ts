@@ -11,8 +11,7 @@ import { bdInitialAssignments } from './data';
 })
 export class AssignmentsService {
   // Assurez-vous que l'URL est correcte (localhost pour le développement)
-  private uri = 'http://localhost:8010/api/assignments';
-
+  private uri = 'https://backend-yahiaghany.onrender.com/api/assignments';
   constructor(
     private loggingService: LoggingService,
     private http: HttpClient
