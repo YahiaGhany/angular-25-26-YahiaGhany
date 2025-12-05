@@ -10,7 +10,7 @@ import { bdInitialAssignments } from './data';
   providedIn: 'root'
 })
 export class AssignmentsService {
-  private uri = 'https://angular-25-26-yahiaghany.onrender.com';
+  private uri = 'http://localhost:8010/api/assignments';
 
   constructor(
     private loggingService: LoggingService,
