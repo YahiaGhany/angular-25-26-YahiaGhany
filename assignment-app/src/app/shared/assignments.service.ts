@@ -10,6 +10,7 @@ import { bdInitialAssignments } from './data';
   providedIn: 'root'
 })
 export class AssignmentsService {
+  // Remplace par ton URL Render si tu es en prod, ou localhost pour le test
   private uri = 'http://localhost:8010/api/assignments';
 
   constructor(
@@ -34,25 +35,19 @@ export class AssignmentsService {
   }
 
   getAssignment(id: number): Observable<Assignment | undefined> {
-    return this.http.get<Assignment>(this.uri + '/' + id)
-      .pipe(catchError(this.handleError<any>('getAssignment id=' + id)));
+    return this.http.get<Assignment>(this.uri + '/' + id);
   }
 
   addAssignment(assignment: Assignment): Observable<any> {
-    if (!assignment.id) {
-        assignment.id = Math.floor(Math.random() * 10000000);
-    }
-    this.loggingService.log(assignment.nom, 'ajouté');
+    if (!assignment.id) assignment.id = Math.floor(Math.random() * 10000000);
     return this.http.post<Assignment>(this.uri, assignment);
   }
 
   updateAssignment(assignment: Assignment): Observable<any> {
-    this.loggingService.log(assignment.nom, 'modifié');
     return this.http.put<Assignment>(this.uri, assignment);
   }
 
   deleteAssignment(assignment: Assignment): Observable<any> {
-    this.loggingService.log(assignment.nom, 'supprimé');
     return this.http.delete(this.uri + '/' + assignment.id);
   }
 
@@ -64,13 +59,5 @@ export class AssignmentsService {
       appelsVersAddAssignment.push(this.addAssignment(nouvelAssignment));
     });
     return forkJoin(appelsVersAddAssignment);
-  }
-
-  private handleError<T>(operation: any, result?: T) {
-    return (error: any): Observable<T> => {
-      console.log(error);
-      console.log(operation + ' a échoué ' + error.message);
-      return of(result as T);
-    }
   }
 }
