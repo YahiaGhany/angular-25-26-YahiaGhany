@@ -2,20 +2,28 @@
   <h2>Modifier le devoir : {{assignment.nom}}</h2>
 
   <form (ngSubmit)="onSaveAssignment()" class="form">
-    <mat-form-field appearance="fill">
+    
+    <mat-form-field appearance="outline">
       <mat-label>Nom du devoir</mat-label>
       <input matInput [(ngModel)]="nomAssignment" name="nom" required>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="outline">
       <mat-label>Date de rendu</mat-label>
       <input matInput [matDatepicker]="picker" [(ngModel)]="dateDeRendu" name="date">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" type="submit" [disabled]="!nomAssignment">
-      Sauvegarder
-    </button>
+    <div class="actions">
+      <button mat-stroked-button type="button" routerLink="/assignments">
+        Annuler
+      </button>
+      
+      <button mat-flat-button color="primary" type="submit" [disabled]="!nomAssignment">
+        Sauvegarder
+      </button>
+    </div>
+
   </form>
 </div>

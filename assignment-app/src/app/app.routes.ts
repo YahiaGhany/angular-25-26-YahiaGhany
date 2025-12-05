@@ -11,11 +11,9 @@ export const routes: Routes = [
   { path: 'assignments', component: AssignmentsComponent },
   { path: 'ajout-devoir', component: AddAssignmentComponent },
   { path: 'login', component: LoginComponent },
-  
-  // Route pour voir le détail (et supprimer)
   { path: 'assignment/:id', component: AssignmentDetailComponent },
   
-  // Route pour modifier
+  // C'EST CETTE ROUTE QUI DOIT ÊTRE EXACTE
   { 
     path: 'assignment/:id/edit', 
     component: EditAssignmentComponent,
