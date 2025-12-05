@@ -4,31 +4,36 @@ let Assignment = require('../model/assignment');
 function getAssignments(req, res){
     var aggregateQuery = Assignment.aggregate();
     
-    Assignment.aggregatePaginate(aggregateQuery, 
-      {
+    if (req.query.search) { aggregateQuery.match({ nom: { $regex: req.query.search, $options: 'i' } }); }
+    if (req.query.rendu !== undefined && req.query.rendu !== 'undefined') {
+        const estRendu = (req.query.rendu === 'true');
+        aggregateQuery.match({ rendu: estRendu });
+    }
+
+    const options = {
         page: parseInt(req.query.page) || 1,
         limit: parseInt(req.query.limit) || 10,
-      }, 
-      (err, assignments) => {
-        if(err){
-          res.send(err);
-        }
+    };
+
+    Assignment.aggregatePaginate(aggregateQuery, options, (err, assignments) => {
+        if(err) return res.send(err);
         res.send(assignments);
-      }
-    );
+    });
 }
 
 // Récupérer un assignment par son id (GET)
 function getAssignment(req, res){
     let assignmentId = req.params.id;
 
-    Assignment.findOne({id: assignmentId}, (err, assignment) =>{
-        if(err){res.send(err)}
+    // FIX : Conversion en Nombre pour la recherche dans la DB
+    Assignment.findOne({id: parseInt(assignmentId)}, (err, assignment) =>{
+        if(err) return res.send(err);
+        if(!assignment) return res.status(404).json({message: "Devoir introuvable"});
         res.json(assignment);
     })
 }
 
-// Ajout d'un assignment (POST)
+// Ajout (POST)
 function postAssignment(req, res){
     let assignment = new Assignment();
     assignment.id = req.body.id;
@@ -36,41 +41,28 @@ function postAssignment(req, res){
     assignment.dateDeRendu = req.body.dateDeRendu;
     assignment.rendu = req.body.rendu;
 
-    console.log("POST assignment reçu :");
-    console.log(assignment)
-
     assignment.save( (err) => {
-        if(err){
-            res.send('cant post assignment ', err);
-        }
+        if(err) return res.send('cant post assignment ', err);
         res.json({ message: `${assignment.nom} saved!`})
     })
 }
 
-// Update d'un assignment (PUT)
+// Update (PUT)
 function updateAssignment(req, res) {
-    console.log("UPDATE recu assignment : ");
-    console.log(req.body);
-    Assignment.findByIdAndUpdate(req.body._id, req.body, {new: true}, (err, assignment) => {
-        if (err) {
-            console.log(err);
-            res.send(err)
-        } else {
-          res.json({message: 'updated'})
-        }
+    // FIX : Recherche par ID numéro (notre ID custom)
+    Assignment.findOneAndUpdate({id: req.body.id}, req.body, {new: true}, (err, assignment) => {
+        if (err) return res.send(err);
+        if (!assignment) return res.status(404).json({message: "Devoir non trouvé"});
+        res.json({message: 'updated'});
     });
 }
 
-// suppression d'un assignment (DELETE)
+// Suppression (DELETE)
 function deleteAssignment(req, res) {
-    
+    // FIX : Recherche par ID numéro (notre ID custom)
     Assignment.findOneAndRemove({id: req.params.id}, (err, assignment) => {
-        if (err) {
-            res.send(err);
-        }
-        if (!assignment) {
-            return res.status(404).json({ message: 'Assignment non trouvé' });
-        }
+        if (err) return res.send(err);
+        if (!assignment) return res.status(404).json({ message: 'Assignment non trouvé' });
         res.json({message: `${assignment.nom} deleted`});
     })
 }
