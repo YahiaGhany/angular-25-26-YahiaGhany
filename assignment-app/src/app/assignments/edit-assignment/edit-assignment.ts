@@ -1,70 +1,54 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-
-import { Assignment } from '../../assignement.model'; 
+import { ActivatedRoute, Router } from '@angular/router';
+import { Assignment } from '../../assignement.model';
 import { AssignmentsService } from '../../shared/assignments.service';
 
 @Component({
   selector: 'app-edit-assignment',
   standalone: true,
   imports: [
-    CommonModule,
-    FormsModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatDatepickerModule,
-    MatNativeDateModule
+    CommonModule, FormsModule, MatInputModule, MatFormFieldModule,
+    MatButtonModule, MatDatepickerModule, MatNativeDateModule
   ],
   templateUrl: './edit-assignment.html',
-  styles: `
-    .form {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      max-width: 400px;
-      margin: 24px;
-    }
-  `
+  styleUrls: ['./edit-assignment.scss']
 })
 export class EditAssignmentComponent implements OnInit {
-  assignment?: Assignment;
-  nomDevoir: string = '';
-  dateDeRendu?: Date;
+  assignment!: Assignment | undefined;
+  nomAssignment!: string;
+  dateDeRendu!: Date;
 
   constructor(
+    private assignmentsService: AssignmentsService,
     private route: ActivatedRoute,
-    private router: Router,
-    private assignmentsService: AssignmentsService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     const id = +this.route.snapshot.params['id'];
-
-    this.assignmentsService.getAssignment(id).subscribe(a => {
-      if (!a) return;
-      this.assignment = a;
-      this.nomDevoir = a.nom;
-      this.dateDeRendu = new Date(a.dateDeRendu);
-    });
+    this.assignmentsService.getAssignment(id)
+      .subscribe(assignment => {
+        if (!assignment) return;
+        this.assignment = assignment;
+        this.nomAssignment = assignment.nom;
+        this.dateDeRendu = new Date(assignment.dateDeRendu);
+      });
   }
 
-  onSave() {
-    if (!this.assignment || !this.nomDevoir || !this.dateDeRendu) return;
-
-    this.assignment.nom = this.nomDevoir;
+  onSaveAssignment() {
+    if (!this.assignment) return;
+    this.assignment.nom = this.nomAssignment;
     this.assignment.dateDeRendu = this.dateDeRendu.toISOString().split('T')[0];
 
     this.assignmentsService.updateAssignment(this.assignment)
-      .subscribe(message => {
-        console.log(message);
+      .subscribe(() => {
         this.router.navigate(['/assignments']);
       });
   }

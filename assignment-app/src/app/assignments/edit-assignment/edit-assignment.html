@@ -1,20 +1,21 @@
-<div class="form">
-  <h2>Édition du devoir : {{ nomDevoir }}</h2>
+<div class="container" *ngIf="assignment">
+  <h2>Modifier le devoir : {{assignment.nom}}</h2>
 
-  <mat-form-field>
-    <mat-label>Nom du devoir</mat-label>
-    <input matInput [(ngModel)]="nomDevoir" name="nom" required>
-  </mat-form-field>
+  <form (ngSubmit)="onSaveAssignment()" class="form">
+    <mat-form-field appearance="fill">
+      <mat-label>Nom du devoir</mat-label>
+      <input matInput [(ngModel)]="nomAssignment" name="nom" required>
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Date de rendu</mat-label>
-    <input matInput [matDatepicker]="picker" [(ngModel)]="dateDeRendu" name="date" required>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Date de rendu</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="dateDeRendu" name="date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
 
-  <button mat-flat-button color="primary" (click)="onSave()" 
-    [disabled]="!nomDevoir || !dateDeRendu">
-    Enregistrer
-  </button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!nomAssignment">
+      Sauvegarder
+    </button>
+  </form>
 </div>

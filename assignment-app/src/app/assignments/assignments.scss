@@ -1,4 +1,4 @@
-/* Conteneur principal centré */
+/* Conteneur principal */
 .assignments-container {
   padding: 24px;
   max-width: 850px;
@@ -11,14 +11,14 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  flex-wrap: wrap; /* Passe à la ligne sur mobile */
+  flex-wrap: wrap;
   gap: 15px;
 }
 
 h2 {
   margin: 0;
   font-size: 1.5rem;
-  color: #37474f; /* Gris foncé élégant */
+  color: #37474f;
   font-weight: 500;
 }
 
@@ -30,16 +30,16 @@ h2 {
 
 /* Champs de formulaire compacts */
 .dense-field {
-  font-size: 15px;
+  font-size: 13px;
 }
 
 mat-form-field {
-  width: 160px; /* Largeur fixe pour l'harmonie */
+  width: 160px;
   background-color: white;
   border-radius: 4px;
 }
 
-/* Compteur total discret */
+/* Compteur total */
 .total-count {
   font-size: 0.85rem;
   color: #90a4ae;
@@ -47,6 +47,48 @@ mat-form-field {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+/* --- ETATS DE CHARGEMENT & VIDE (FIX FLUIDITÉ) --- */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 60px;
+  color: #90a4ae;
+  gap: 15px;
+
+  /* L'ASTUCE EST ICI : On cache le spinner au début */
+  opacity: 0; 
+  /* On lance l'apparition */
+  animation: appear 0.3s forwards; 
+  /* MAIS on attend 0.2s avant de le montrer. 
+     Si les données arrivent avant, l'utilisateur ne voit rien. */
+  animation-delay: 0.2s; 
+}
+
+/* Définition de l'animation d'apparition */
+@keyframes appear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 60px;
+  color: #78909c;
+  gap: 15px;
+}
+
+.empty-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #cfd8dc;
 }
 
 /* --- LISTE DES DEVOIRS --- */
@@ -58,18 +100,24 @@ mat-list {
 /* Chaque ligne de devoir */
 .assignment-item {
   background-color: white;
-  border-bottom: 1px solid #eceff1; /* Ligne de séparation très légère */
+  border-bottom: 1px solid #eceff1;
   transition: background-color 0.2s ease;
   cursor: pointer;
   
   &:hover {
-    background-color: #fafafa; /* Gris très pâle au survol */
+    background-color: #fafafa;
   }
 
-  /* Pour le dernier élément, pas de bordure en bas */
   &:last-child {
     border-bottom: none;
   }
+}
+
+/* Effet de transparence quand on recherche (Optionnel) */
+.is-loading-data {
+  opacity: 0.6;
+  pointer-events: none;
+  transition: opacity 0.3s;
 }
 
 /* Titres colorés */
@@ -83,28 +131,25 @@ mat-list {
   justify-content: center;
   font-size: 0.7rem;
   padding: 4px 10px;
-  border-radius: 12px; /* Forme de pilule */
+  border-radius: 12px;
   gap: 6px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
-/* Badge Vert (Rendu) */
 .badge-vert {
-  background-color: #e8f5e9; /* Fond vert très clair */
-  color: #2e7d32;            /* Texte vert foncé */
-  border: 1px solid #c8e6c9; /* Bordure subtile */
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
 }
 
-/* Badge Rouge (À rendre) */
 .badge-rouge {
-  background-color: #ffebee; /* Fond rouge très clair */
-  color: #c62828;            /* Texte rouge foncé */
-  border: 1px solid #ffcdd2; /* Bordure subtile */
+  background-color: #ffebee;
+  color: #c62828;
+  border: 1px solid #ffcdd2;
 }
 
-/* Petite icône dans le badge */
 .small-icon {
   font-size: 16px;
   width: 16px;
