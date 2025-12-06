@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'; // 1. Import SnackBar
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon'; // ✅ Ajout pour l'icône utilisateur
 import { AssignmentsService } from '../shared/assignments.service';
 import { AuthService } from '../shared/auth.service';
+import { CommonModule } from '@angular/common'; // ✅ Ajout de CommonModule (pour le pipe TitleCase si besoin)
 
 @Component({
   selector: 'app-sidenav',
   standalone: true,
-  imports: [MatListModule, RouterLink, MatSnackBarModule], // 2. Ajout du module ici
+  imports: [MatListModule, RouterLink, MatSnackBarModule, MatIconModule, CommonModule],
   templateUrl: './sidenav.html',
   styleUrls: ['./sidenav.scss']
 })
@@ -18,7 +20,7 @@ export class SidenavComponent {
     private assignmentsService: AssignmentsService,
     private authService: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar // 3. Injection
+    private snackBar: MatSnackBar
   ) {}
 
   get isAdmin(): boolean {
@@ -29,15 +31,16 @@ export class SidenavComponent {
     return this.authService.isLoggedIn();
   }
 
-  // --- NOUVELLES MÉTHODES POUR LES MESSAGES ---
+  // ✅ NOUVEAU GETTER
+  get currentUser() {
+    return this.authService.getUser();
+  }
 
   onClickEdit() {
-    // 1. On va sur la liste
     this.router.navigate(['/assignments']);
-    // 2. On affiche le message
     this.snackBar.open("Cliquez sur un devoir de la liste pour le modifier", "COMPRIS", {
-      duration: 5000, // Reste affiché 5 secondes
-      panelClass: ['snackbar-info'] // (Optionnel pour le style)
+      duration: 5000,
+      panelClass: ['snackbar-info']
     });
   }
 

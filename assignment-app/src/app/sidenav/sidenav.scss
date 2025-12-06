@@ -1,22 +1,79 @@
+/* ZONE PROFIL EN HAUT */
+.sidenav-header {
+  padding: 24px 16px;
+  background-color: #f8f9fa; /* Fond très léger pour séparer du menu */
+  margin-bottom: 8px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* Espace entre l'icône et le texte */
+}
+
+/* L'icône (Avatar) */
+.avatar {
+  background-color: white;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  
+  mat-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+    color: #546e7a;
+  }
+}
+
+/* Détails texte */
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.username {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #2c3e50;
+}
+
+.role {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+  color: #78909c;
+  margin-top: 2px;
+}
+
+/* Style spécifique si c'est un Admin (Orange/Or) */
+.admin-role {
+  color: #f57c00; 
+}
+
+/* --- VOTRE CODE EXISTANT POUR LA LISTE --- */
 mat-nav-list {
   padding: 16px;
 
   a {
     margin-bottom: 8px;
-    border-radius: 12px; /* Arrondi prononcé */
+    border-radius: 12px;
     transition: all 0.3s ease;
     color: #546e7a;
     font-weight: 500;
     font-size: 0.95rem;
 
-    /* Effet au survol : léger décalage et fond doux */
     &:hover {
       background-color: #e8eaf6;
       color: #3f51b5;
       transform: translateX(5px);
     }
 
-    /* Style du lien actif (quand on est sur la page) */
     &.active-link {
       background-color: #e3f2fd;
       color: #1565c0;

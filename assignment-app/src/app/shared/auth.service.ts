@@ -14,7 +14,6 @@ export class AuthService {
   private currentUser: any = null;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-    // CORRECTION : On vérifie si on est dans un navigateur
     if (isPlatformBrowser(this.platformId)) {
       const savedUser = localStorage.getItem('currentUser');
       if (savedUser) {
@@ -27,7 +26,6 @@ export class AuthService {
     const user = this.users.find(u => u.login === login && u.password === password);
     if (user) {
       this.currentUser = user;
-      // CORRECTION : Sauvegarde uniquement dans le navigateur
       if (isPlatformBrowser(this.platformId)) {
         localStorage.setItem('currentUser', JSON.stringify(user));
       }
@@ -38,7 +36,6 @@ export class AuthService {
 
   logOut() {
     this.currentUser = null;
-    // CORRECTION : Nettoyage uniquement dans le navigateur
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('currentUser');
     }
@@ -50,5 +47,10 @@ export class AuthService {
 
   isAdmin(): boolean {
     return this.isLoggedIn() && this.currentUser.role === 'admin';
+  }
+
+  // ✅ NOUVELLE MÉTHODE À AJOUTER
+  getUser() {
+    return this.currentUser;
   }
 }

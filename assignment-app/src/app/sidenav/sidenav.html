@@ -1,3 +1,20 @@
+@if (isLoggedIn && currentUser) {
+  <div class="sidenav-header">
+    <div class="user-info">
+      <div class="avatar">
+        <mat-icon>{{ isAdmin ? 'admin_panel_settings' : 'account_circle' }}</mat-icon>
+      </div>
+      <div class="user-details">
+        <span class="username">{{ currentUser.login | titlecase }}</span>
+        <span class="role" [class.admin-role]="isAdmin">
+          {{ isAdmin ? 'Administrateur' : 'Utilisateur' }}
+        </span>
+      </div>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+}
+
 <mat-nav-list>
   <a mat-list-item routerLink="/assignments" routerLinkActive="active-link" aria-label="Liste des devoirs">
     Liste des devoirs
