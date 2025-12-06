@@ -7,8 +7,8 @@ import { isPlatformBrowser } from '@angular/common';
 export class AuthService {
   
   private users = [
-    { login: 'admin', password: 'password', role: 'admin' },
-    { login: 'user', password: 'password', role: 'user' }
+    { login: 'admin', password: 'admin', role: 'admin' },
+    { login: 'user', password: 'user', role: 'user' }
   ];
 
   private currentUser: any = null;

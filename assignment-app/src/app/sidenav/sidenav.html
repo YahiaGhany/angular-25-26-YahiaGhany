@@ -1,29 +1,33 @@
 <mat-nav-list>
-  <a mat-list-item routerLink="/assignments" aria-label="Liste des devoirs">
+  <a mat-list-item routerLink="/assignments" routerLinkActive="active-link" aria-label="Liste des devoirs">
     Liste des devoirs
   </a>
 
-  @if (isLoggedIn) {
-    <a mat-list-item routerLink="/ajout-devoir" aria-label="Ajouter un devoir">
+  @if (isAdmin) {
+    <mat-divider></mat-divider>
+
+    <a mat-list-item routerLink="/ajout-devoir" routerLinkActive="active-link" aria-label="Ajouter un devoir">
       Ajouter un devoir
     </a>
-
-    <a mat-list-item routerLink="/modification-devoir" aria-label="Modifier un devoir">
-      Modifier un devoir
-    </a>
-
-    <a mat-list-item routerLink="/suppression-devoir" aria-label="Supprimer un devoir">
-      Supprimer un devoir
-    </a>
-  }
-
-  @if (isAdmin) {
+    
     <a mat-list-item (click)="onClickPeuplerBD()" aria-label="Peupler la BD">
       Peupler la BD
     </a>
 
-    <a mat-list-item routerLink="/generation-test" aria-label="Générer des données de test">
-      Générer des données test
+    <a mat-list-item (click)="onClickEdit()" aria-label="Modifier un devoir">
+      Modifier un devoir
+    </a>
+
+    <a mat-list-item (click)="onClickDelete()" aria-label="Supprimer un devoir">
+      Supprimer un devoir
+    </a>
+
+    <mat-divider></mat-divider>
+    <a mat-list-item 
+       href="https://github.com/DonatiLeo" 
+       target="_blank" 
+       style="font-size: 0.8rem; color: #7f8c8d; padding-top: 10px; opacity: 0.8;">
+      Bouton Surprise
     </a>
   }
 </mat-nav-list>

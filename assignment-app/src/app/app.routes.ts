@@ -8,12 +8,14 @@ import { authGuard } from './shared/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'assignments', pathMatch: 'full' },
+  
+  // J'AI SUPPRIMÉ LES ROUTES 'modification-devoir' et 'suppression-devoir' ICI
+  // CAR ELLES SONT MAINTENANT GÉRÉES PAR LE SIDENAV.TS
+  
   { path: 'assignments', component: AssignmentsComponent },
   { path: 'ajout-devoir', component: AddAssignmentComponent },
   { path: 'login', component: LoginComponent },
   { path: 'assignment/:id', component: AssignmentDetailComponent },
-  
-  // C'EST CETTE ROUTE QUI DOIT ÊTRE EXACTE
   { 
     path: 'assignment/:id/edit', 
     component: EditAssignmentComponent,

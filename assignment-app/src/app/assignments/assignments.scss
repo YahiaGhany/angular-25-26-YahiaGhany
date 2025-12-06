@@ -33,11 +33,35 @@ h2 {
   font-size: 13px;
 }
 
+/* 🛑 FIX SYMÉTRIE ET ALIGNEMENT 🛑 */
 mat-form-field {
   width: 160px;
   background-color: white;
   border-radius: 4px;
+  
+  /* On annule la marge qui casse l'alignement */
+  margin-bottom: 0 !important;
 }
+
+/* Cacher l'espace réservé aux erreurs (pour la symétrie verticale) */
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}
+
+/* Centrer le contenu de l'input dans la hauteur du bloc */
+::ng-deep .mat-mdc-form-field-flex {
+  align-items: center !important;
+  height: 42px; /* Hauteur fixe pour une symétrie parfaite */
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  line-height: 1.2;
+}
+
+/* Retirer le padding interne non désiré par défaut */
+::ng-deep .mat-mdc-text-field-wrapper {
+  padding-top: 0 !important;
+}
+/* FIN FIX SYMÉTRIE */
 
 /* Compteur total */
 .total-count {
@@ -47,48 +71,6 @@ mat-form-field {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-}
-
-/* --- ETATS DE CHARGEMENT & VIDE (FIX FLUIDITÉ) --- */
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 60px;
-  color: #90a4ae;
-  gap: 15px;
-
-  /* L'ASTUCE EST ICI : On cache le spinner au début */
-  opacity: 0; 
-  /* On lance l'apparition */
-  animation: appear 0.3s forwards; 
-  /* MAIS on attend 0.2s avant de le montrer. 
-     Si les données arrivent avant, l'utilisateur ne voit rien. */
-  animation-delay: 0.2s; 
-}
-
-/* Définition de l'animation d'apparition */
-@keyframes appear {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 60px;
-  color: #78909c;
-  gap: 15px;
-}
-
-.empty-icon {
-  font-size: 48px;
-  width: 48px;
-  height: 48px;
-  color: #cfd8dc;
 }
 
 /* --- LISTE DES DEVOIRS --- */
@@ -176,4 +158,32 @@ mat-list {
     border-radius: 6px;
     border: 1px solid #eceff1;
   }
+}
+
+/* --- ETATS DE CHARGEMENT & VIDE --- */
+.loading-container, .empty-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 60px;
+  color: #90a4ae;
+  gap: 15px;
+  
+  /* Animation de fluidité */
+  opacity: 0;
+  animation: appear 0.4s forwards;
+  animation-delay: 0.1s;
+}
+
+@keyframes appear {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.empty-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #cfd8dc;
 }

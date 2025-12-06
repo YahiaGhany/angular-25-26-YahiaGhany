@@ -58,11 +58,27 @@
     </mat-list>
 
     <div class="pagination">
-      <button mat-icon-button (click)="premierePage()" [disabled]="page === 1"><mat-icon>first_page</mat-icon></button>
-      <button mat-icon-button (click)="pagePrecedente()" [disabled]="!hasPrevPage"><mat-icon>chevron_left</mat-icon></button>
-      <span class="page-info">{{ page }} / {{ totalPages }}</span>
-      <button mat-icon-button (click)="pageSuivante()" [disabled]="!hasNextPage"><mat-icon>chevron_right</mat-icon></button>
-      <button mat-icon-button (click)="dernierePage()" [disabled]="page === totalPages"><mat-icon>last_page</mat-icon></button>
-    </div>
+  <button mat-flat-button color="primary" 
+          (click)="premierePage()" [disabled]="page === 1">
+    Première
+  </button>
+
+  <button mat-flat-button color="primary" 
+          (click)="pagePrecedente()" [disabled]="!hasPrevPage">
+    Précédent
+  </button>
+
+  <span class="page-info">Page {{ page }} / {{ totalPages }}</span>
+
+  <button mat-flat-button color="primary" 
+          (click)="pageSuivante()" [disabled]="!hasNextPage">
+    Suivant
+  </button>
+
+  <button mat-flat-button color="primary" 
+          (click)="dernierePage()" [disabled]="page === totalPages">
+    Dernière
+  </button>
+</div>
   </div>
 </main>
