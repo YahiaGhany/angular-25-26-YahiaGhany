@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -6,14 +6,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-// 1. Ajouter l'import pour MatCardModule
-import { MatCardModule } from '@angular/material/card'; 
-// 2. Ajouter RouterLink si vous avez un bouton "Annuler" avec routerLink
-import { RouterLink } from '@angular/router'; 
+import { MatCardModule } from '@angular/material/card';
+import { Router, RouterLink } from '@angular/router';
+// 1. Import du SnackBar
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { Assignment } from '../../assignement.model';
 import { AssignmentsService } from '../../shared/assignments.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-assignment',
@@ -26,8 +25,9 @@ import { Router } from '@angular/router';
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatCardModule, // 3. Ajouter le module ici dans les imports
-    RouterLink     // 4. Ajouter RouterLink ici aussi
+    MatCardModule,
+    RouterLink,
+    MatSnackBarModule // 2. Ajout ici
   ],
   templateUrl: './add-assignment.html',
   styleUrls: ['./add-assignment.scss']
@@ -38,11 +38,27 @@ export class AddAssignmentComponent {
 
   constructor(
     private assignmentsService: AssignmentsService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar // 3. Injection
   ) {}
 
   onSubmit() {
     if (!this.nomDevoir || !this.dateDeRendu) return;
+
+    // --- LOGIQUE DE VÉRIFICATION DE DATE ---
+    const today = new Date();
+    // On met les heures à 00:00:00 pour comparer uniquement les jours
+    today.setHours(0, 0, 0, 0);
+
+    // Si la date choisie est AVANT aujourd'hui
+    if (this.dateDeRendu < today) {
+      this.snackBar.open("Impossible : La date de rendu ne peut pas être dans le passé !", "OK", {
+        duration: 3000,
+        panelClass: ['snackbar-error'] // Tu peux styliser ça en rouge si tu veux
+      });
+      return; // ON ARRÊTE TOUT, on n'envoie pas au serveur
+    }
+    // ---------------------------------------
 
     const newAssignment: Assignment = {
       id: 0, 

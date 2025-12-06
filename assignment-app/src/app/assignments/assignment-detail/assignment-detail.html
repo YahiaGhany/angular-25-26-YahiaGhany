@@ -26,7 +26,8 @@
     <mat-card-actions align="end">
       <mat-checkbox 
         [checked]="assignmentTransmis.rendu"
-        (change)="onCheckboxChange()">
+        (change)="onCheckboxChange()"
+        [disabled]="!isLoggedIn">
         Marquer comme rendu
       </mat-checkbox>
       

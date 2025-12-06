@@ -5,9 +5,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-// ⚠️ IMPORT CRUCIAL : RouterLink doit être là
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-
 import { Assignment } from '../../assignement.model';
 import { AssignmentsService } from '../../shared/assignments.service';
 import { AuthService } from '../../shared/auth.service';
@@ -16,20 +14,15 @@ import { AuthService } from '../../shared/auth.service';
   selector: 'app-assignment-detail',
   standalone: true,
   imports: [
-    CommonModule, 
-    MatCardModule, 
-    MatCheckboxModule, 
-    MatButtonModule,
-    MatIconModule, 
-    MatProgressSpinnerModule, 
-    RouterLink // ⚠️ IL DOIT ÊTRE ICI POUR QUE LE BOUTON MARCHE
+    CommonModule, MatCardModule, MatCheckboxModule, MatButtonModule,
+    MatIconModule, MatProgressSpinnerModule, RouterLink
   ],
   templateUrl: './assignment-detail.html',
   styleUrls: ['./assignment-detail.scss']
 })
 export class AssignmentDetailComponent implements OnInit { 
   assignmentTransmis?: Assignment;
-  loading = true;
+  loading: boolean = true;
 
   constructor(
     private assignmentsService: AssignmentsService,
@@ -48,7 +41,7 @@ export class AssignmentDetailComponent implements OnInit {
     this.loading = true;
     const id = +this.route.snapshot.params['id'];
 
-    if (!id) {
+    if (isNaN(id) || !id) {
         console.error("ID Invalide");
         this.loading = false;
         return;
@@ -57,7 +50,6 @@ export class AssignmentDetailComponent implements OnInit {
     this.assignmentsService.getAssignment(id)
       .subscribe({
         next: (assignment) => {
-          // On force la mise à jour pour éviter les bugs d'affichage
           this.ngZone.run(() => {
              this.assignmentTransmis = assignment;
              this.loading = false;
@@ -65,20 +57,33 @@ export class AssignmentDetailComponent implements OnInit {
           });
         },
         error: (err) => {
-          console.error("Erreur :", err);
-          this.loading = false;
+          console.error("Erreur API :", err);
+          this.ngZone.run(() => {
+             this.loading = false;
+             this.cdr.detectChanges();
+          });
         }
       });
   }
 
-  get isAdmin(): boolean { return this.authService.isAdmin(); }
+  // Pour le bouton Modifier/Supprimer (Admin seulement)
+  get isAdmin(): boolean { 
+    return this.authService.isAdmin(); 
+  }
+
+  // ✅ NOUVEAU : Pour la checkbox (User ou Admin)
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
 
   onCheckboxChange() {
     if (!this.assignmentTransmis) return;
     this.assignmentTransmis.rendu = !this.assignmentTransmis.rendu;
 
     this.assignmentsService.updateAssignment(this.assignmentTransmis)
-      .subscribe(() => { this.router.navigate(['/assignments']); });
+      .subscribe(() => { 
+        this.router.navigate(['/assignments']); 
+      });
   }
 
   onAssignmentSupprime() {
