@@ -1,6 +1,6 @@
 # Application de Gestion des Devoirs (Assignments App)
 
-Ce projet est une application **Full-Stack (MEAN)** réalisée dans le cadre du module Angular (Master 1 MIAGE). Elle permet de gérer une liste de devoirs (ajout, modification, suppression, notation) avec une gestion complète des utilisateurs, des droits d'accès et une interface soignée.
+Ce projet est une application **Full-Stack (MEAN)** réalisée dans le cadre du module Angular (Master 1 MIAGE). Elle permet de gérer une liste de devoirs (ajout, modification, suppression) avec une gestion complète des utilisateurs, des droits d'accès et une interface soignée.
 
 ---
 
